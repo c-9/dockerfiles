@@ -1,0 +1,245 @@
+in_array() {
+	# usage:  list=(a b c)
+	# in_array a && echo 1
+    local hay needle=$1
+    shift
+    for hay; do
+        [[ $hay == $needle ]] && return 0
+    done
+    return 1
+}
+
+
+# function improvments for common command
+alias cdl='cd'
+alias dc='cd'
+alias p='ping'
+alias meow='ping'
+alias p6='ping6'
+
+alias v='vim '
+alias vi='vim '
+alias iv='vim '
+alias sv='sudo vim'
+alias gv='gvim'
+
+
+#function ll(){
+#	ls -AhlF --color=auto $1
+#	echo -e " $GREEN  --[$LIGHTBLUE  Dir:    $CYAN`ls -Al $1 | grep '^drw' | wc -l`$LIGHTGREEN|$YELLOW \
+#	 File: $GREEN`ls -Al $1 | grep -v '^drw' | grep -v total | wc -l` ]-- $WHITE"
+#}
+
+function acpi(){
+	=acpi -V | head -n1
+	sensors | grep Physical |sed 's/(.*//g' |sed 's/\+//g'
+	sensors | grep RPM
+	cat /proc/acpi/ibm/fan | head -n3 |tail -n1
+	#echo "Graphic Card:  `nvidia-settings -q gpucoretemp |grep "Keep" |grep -o "\ [0-9]+" `  °C "
+	for ((i=0; i<1; i++)); do
+		echo -n "cpu$i : "
+		cat "/sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor"
+	done
+}
+
+alias grep='egrep -I --color=auto'
+alias l='ls -F --color=auto'
+alias sl='ls -F --color=auto'
+alias ls='ls -F --color=auto'
+alias lss='ls -F --color=auto'
+
+#2014-12-20
+alias ll='ls -AhlXF --color=auto --time-style="+[33m[[32m%g-%m-%d [35m%k:%M[33m][m"'
+
+
+
+alias sduo='sudo'
+alias sodu='sudo'
+
+
+#2013-09-21
+alias his='history'
+
+#2013-10-19
+alias py='python'
+alias pl='perl'
+
+#2013-10-31
+alias hisg='his |grep -i '
+
+#2014-01-30
+#alias rm='rm -i '
+
+#2014-02-11
+#alias findn='find . -iname '
+alias findl='ls . -aR | grep -i '
+alias psc='ps -ef --sort command '
+
+function findn(){
+	find . -iname \*$1\* 
+# find . -iname \*$1\* | grep -i $1
+}
+
+#2014-03-03
+# alias xargs='xargs -t '
+alias xargs='xargs '
+#2014-03-03
+alias psl='ps -ef --sort command '
+alias psg='ps -ef --sort command | grep -i '
+
+#2014-03-19
+# alias emacs='emacs -nw '
+
+#2014-03-25
+alias cpuinfo='cat /proc/cpuinfo '
+
+#2014-04-05
+function grepn(){
+	find . -print | xargs grep -in $1
+}
+
+#2014-05-02
+alias pylps='env UBUNTU_MENUPROXY=  $LOCAL/bin/pylipse/eclipse'
+
+#2014-05-05
+# hash
+alias sha='openssl sha '
+alias sha1='openssl sha1 '
+alias sha256='openssl sha256 '
+alias sha512='openssl sha512 '
+
+alias md4='openssl md4 '
+alias md5='openssl md5 '
+
+#2014-05-29
+#less is more!;D
+alias more='less '
+
+#2014-07-30
+alias fff='fortune | cowsay '
+
+#2014-09-16
+#alias time='/usr/bin/time -p '
+alias time='/usr/bin/time -f "real\t%es\nuser\t%Us\nsys\t%Ss\nCPU\t%P\n(%Xtext+%Ddata %Mmax)k\t%Iinputs+%Ooutputs\n(%Fmajor+%Rminor)pagefaults\t%Wswaps" '
+
+#2014-10-01
+alias srn='screen '
+alias tracert='traceroute '
+alias mynmap='nmap -sP 192.168.56.0/24 '
+alias qemum='qemu -monitor stdio '
+alias ipt='iptables '
+alias ipt_show='iptables -L -v '
+alias nst='netstat '
+alias nst_show='netstat -naplut '
+
+#2014-11-19
+# virtualenv aliases
+# http://blog.doughellmann.com/2010/01/virtualenvwrapper-tips-and-tricks.html
+alias v='workon'
+alias v.deactivate='deactivate'
+alias v.mk='mkvirtualenv --no-site-packages'
+alias v.mk_withsitepackages='mkvirtualenv'
+alias v.rm='rmvirtualenv'
+alias v.switch='workon'
+alias v.add2virtualenv='add2virtualenv'
+alias v.cdsitepackages='cdsitepackages'
+alias v.cd='cdvirtualenv'
+alias v.lssitepackages='lssitepackages'
+alias v.toggleglobalsitepackages='toggleglobalsitepackages'
+
+
+#2014-11-28
+# alias hfs='hadoop fs '
+alias hfs='hdfs dfs '
+alias whoisl='whois -h whois.apnic.net -H '
+
+function mtrl(){
+	mtr --curses --no-dns --report baidu.com | grep -v Start | awk '{printf("%8s %-18s%-10s%-10s%-10s",$1,$2,$3,$4,$6);if(NR==1){printf("Whois")}if(NR >= 2){system("whois -h whois.apnic.net -H "$2" |grep descr|head -n2|cut -c17-|tr \"\\n\" \" \" ");}print '\n'}'
+}
+
+
+#2015-04
+
+alias gitage='git add . && git ci -am "staged." && git push '
+
+#2015-08
+alias objdumps='objdump -d $1 > dumped.S && objdump -d -j .rodata $1 >> dumped.S'
+alias dfa='df -aTh'
+
+alias ff='fuck '
+
+alias cope='cscope '
+function recent(){
+	NUM=1
+	if [ "$#" -ge 1 ]; then
+		NUM="$1"
+	fi
+	find . -type f -printf '%T@ %p\n' | sort -rn | head -n "$NUM" | cut -f2- -d" " | xargs ll 
+}
+
+function biggest(){
+    NUM=1
+    if [ "$#" -ge 1 ]; then
+        NUM="$1"
+    fi
+    find . -type f -printf '%s %p\n' | sort -rn | head -n "$NUM" | cut -f2- -d" " | xargs ll
+}
+
+
+
+alias sch-trusty='schroot -c chroot:trusty-i386 -u root'
+alias sch-trusty-src='schroot -c source:trusty-i386 -u root'
+
+alias make4='make CC=`which gcc-4.4` '
+alias gpi='grep -i '
+
+
+function transfer() { if [ $# -eq 0 ]; then echo "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
+tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
+
+alias diff='colordiff'
+
+
+function teelog(){
+	"$@" > >(tee stdout.log) 2> >(tee stderr.log)
+}
+
+function satrace(){
+    strace "$@" 2>&1 | grep -v "No such file or directory"
+}
+
+# function newc(){
+#     CF="hello"
+#     if [ "$#" -ge 1 ]; then
+#         CF="$1"
+#     fi
+#     echo "/*\n* $CF\n*\n*  Created on: $(date)\n*      Author: chunk\n*/\n\n\n#include <stdio.h>\n#include <stdlib.h>\n\nint main(int argc, char** argv) {\n\n\n\n\tprintf(\"hellooooooooooooo!\\\n\");\n\treturn 0;\n}\n" > $CF
+# 
+# }
+
+function dtail(){
+    LEN=''
+    if [ "$#" -ge 1 ]; then
+        LEN="-$1"
+    fi
+    dmesg | tail $LEN
+}
+
+
+alias stp='stap'
+
+
+
+alias hisge='his | cut -c 8- | sort -r |  uniq | grep '
+alias oport="netstat -atun | awk -F ':' '{print \$2}' | cut -f1 -d' ' | sort | uniq "
+
+alias Date='date +%Y%m%d'
+
+#20190326
+
+
+alias privo="export http_proxy='http://localhost:8118';export https_proxy='https://localhost:8118'"
+
+alias cda='conda activate '
+alias cdd='conda deactivate'
+alias upd='sudo updatedb --prunepaths="/media /run /proc"'
