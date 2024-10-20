@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-PROJECT="chunk-legion:5000/zsim-ubuntu1804"
+PROJECT="chunk-legion:5000/hscc-ubuntu1804"
 tag='latest'
 resolvectl flush-caches
 if [ "$1" = "-c" ]
